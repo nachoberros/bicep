@@ -13,14 +13,15 @@ az login --tenant bdfdbcae-49aa-4e3e-ac4f-9dded6d5e510
 
 # Create resource group
 az group create --name bookealo-rg --location westeurope
+az group create --name loggealo-rg --location westeurope
 
-# Deploy frontend (Angular Static Web App)
-cd repos\bicep\BookealoWebApp\frontend
+# Deploy frontend Bookealo (Angular Static Web App)
+cd repos\bicep\WebApplications\BookealoWebApp\
 
 az deployment group what-if --resource-group bookealo-rg --template-file frontend.bicep --parameters @frontend.parameters.dev.json
 az deployment group create --resource-group bookealo-rg --template-file frontend.bicep --parameters @frontend.parameters.dev.json
 
-# Deploy backend (.NET API on App Service)
+# Deploy backend Bookealo (.NET API on App Service)
 cd ../backend
 
 az deployment group what-if --resource-group bookealo-rg --template-file backend.bicep --parameters @parameters.dev.json
@@ -30,3 +31,16 @@ az deployment group create --resource-group bookealo-rg --template-file backend.
 
 az staticwebapp show --name bookealo-frontend --resource-group bookealo-rg --query defaultHostname
 az webapp show --name bookealo-backend --resource-group bookealo-rg --query defaultHostName
+
+
+# Deploy frontend Loggealo (React Static Web App)
+cd repos\bicep\WebApplications\LoggealoApp\
+
+az deployment group what-if --resource-group loggealo-rg --template-file frontend.bicep --parameters @frontend.parameters.dev.json
+az deployment group create --resource-group loggealo-rg --template-file frontend.bicep --parameters @frontend.parameters.dev.json
+
+# Deploy backend Loggealo (.NET API on App Service)
+cd ../backend
+
+az deployment group what-if --resource-group loggealo-rg --template-file backend.bicep --parameters @parameters.dev.json
+az deployment group create --resource-group loggealo-rg --template-file backend.bicep --parameters @parameters.dev.json
